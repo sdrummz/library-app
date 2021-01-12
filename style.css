@@ -1,9 +1,9 @@
 .card-title {
   padding-bottom: 15px;
-  font-size: px;
 }
 
 .card-action {
   display: flex;
   justify-content: space-evenly;
+  margin-left: 10px;
 }
