@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Library</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="navbar">
+    <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper purple">
           <div class="container">
@@ -23,17 +24,60 @@
       </nav>
     </div>
     <div class="container">
+      <div class="about">
+        <h6>A library app to keep track of the books you have read, books you are currently reading, and books on your future reading list.</h6>
+      </div>
       <div class="row books"></div>
       <div id="modal1" class="modal">
         <div class="modal-content">
-          <h4>Modal Header</h4>
-          <p>A bunch of text</p>
+          <h4>Add new book</h4>
+          <div class="row">
+            <form class="col s12">
+              <div class="row modal-form-row">
+                <div class="input-field col s12">
+                  <input id="form-title" type="text" class="validate" value="" required />
+                  <label for="form-title">Title</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="form-author" type="text" class="validate" value="" required />
+                  <label for="form-author">Author</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6 m6 l6">
+                  <input id="form-pages" type="number" class="validate" value="" required />
+                  <label for="form-pages">Pages</label>
+                </div>
+                <div class="input-field col s6 m6 l6">
+                  <select id="form-isRead" required>
+                    <option value="" disabled selected>Have you finished reading?</option>
+                    <option value="1">Read</option>
+                    <option value="2">Not Read</option>
+                  </select>
+                  <label>Status</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="form-notes" type="text" class="materialize-textarea validate"></textarea>
+                  <label for="form-notes">Notes (optional)</label>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
         <div class="modal-footer">
           <a href="#!" class="modal-close waves-effect waves-green btn-flat">close</a>
           <a href="#!" class="modal-close waves-effect waves-green btn">submit</a>
         </div>
       </div>
+    </div>
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large purple z-depth-2 waves-effect waves-light modal-trigger" href="#modal1">
+        <i class="large material-icons">mode_edit</i>
+      </a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
