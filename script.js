@@ -45,7 +45,7 @@ function displayBooks () {
                     <span class="card-title">${book.title}</span>
                     <p class="author">By: ${book.author}</p>
                     <p class="pages">Number of Pages: ${book.pages}</p>
-                    <p class="isRead">Completed: ${book.isRead}</p>
+                    <p class="isRead">Status: ${book.isRead}</p>
                 </div>
                 <div class="card-action">
                     <a class="btn-flat">Edit</a>
@@ -65,22 +65,56 @@ deleteBtn.forEach(function(btn) {
     })
 })
 
-// Modal form
+// Modal form actions
 document.addEventListener('DOMContentLoaded', function () {
     var elem = document.querySelector('.modal');
     const options = {
         dismissible: false
     }
     var instance = M.Modal.init(elem, options)
-    
+
+    // submit checks/function
+    const button = document.querySelector('.submitBtn');
+    button.addEventListener('click', checkForm);
+
+    // this function will check if the form is complete, then submit the form
+    function checkForm() {
+        const title = document.querySelector('#form-title');
+        const author = document.querySelector('#form-author');
+        const pages = document.querySelector('#form-pages');
+        const read = document.querySelector('#form-read');
+        const notes = document.querySelector('#form-notes');
+
+        if (title.value && author.value && pages.value) {
+            // submit form and close modal
+            instance.close();
+            resetForm();
+
+        } else if (!title.value) {
+            title.classList.add('invalid');
+        } else if (!author.value) {
+            author.classList.add('invalid');
+        } else if (!pages.value) {
+            pages.classList.add('invalid');
+        }
+
+        function resetForm() {
+            title.value = '';
+            title.classList.remove('valid');
+            author.value = '';
+            author.classList.remove('valid');
+            pages.value = '';
+            pages.classList.remove('valid');
+            read.checked = false;
+            notes.value = '';
+        }
+        
+    }
 });
 
+
+// floating edit button to add book
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
     var instances = M.FloatingActionButton.init(elems);
-  });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
   });

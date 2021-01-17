@@ -7,3 +7,15 @@
   justify-content: space-evenly;
   margin-left: 10px;
 }
+
+h5 {
+  text-align: center;
+}
+
+form > .row {
+  margin: 0px;
+}
+
+.switch {
+  text-align: center;
+}
