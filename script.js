@@ -28,11 +28,6 @@ function Book(title, author, pages, isRead, notes) {
     }
 };
 
-function addBook () {
-    let newBook = new Book(title, author, pages, isRead, notes)
-    myLibrary.push(newBook);
-}
-
 function displayBooks () {
 
     document.querySelector('.books').innerHTML = '';
@@ -86,8 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const notes = document.querySelector('#form-notes');
 
         if (title.value && author.value && pages.value) {
-            // submit form and close modal
+            // submit form and close modal and reset
             instance.close();
+            addBook();
+            displayBooks();
             resetForm();
 
         } else if (!title.value) {
@@ -107,6 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
             pages.classList.remove('valid');
             read.checked = false;
             notes.value = '';
+        }
+
+        function addBook() {
+            let newBook = new Book(title.value, author.value, pages.value, read.value, notes.value)
+            myLibrary.push(newBook);
         }
         
     }
