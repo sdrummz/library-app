@@ -1,5 +1,7 @@
 'use strict';
 
+let activeID = '';
+
 // book objects stored in myLibrary
 let myLibrary = [
     { 
@@ -38,7 +40,7 @@ function displayBooks () {
         //this function also gives each book/card a unique ID, to be used when deleting/editing and re-ordering
         book.id = `${i}`;
 
-        // creating a new div to create each card
+        // creating a new div to represent each card within myLibrary
         let div = document.createElement('div');
         div.setAttribute('class', 'col l4 m6 s12');
         div.innerHTML = `
@@ -53,50 +55,55 @@ function displayBooks () {
                 </div>
                 <div class="card-action">
                     <a class="btn-flat edit" data-id="${book.id}">Edit</a>
-                    <a class="btn-flat deleteBtn" data-id="${book.id}">Delete</a>
+                    <a href="#modal2" class="btn-flat modal-trigger deleteBtn" data-id="${book.id}">Delete</a>
                 </div>
             </div>`
         document.querySelector('.books').appendChild(div);
     })
-    // every update we also want to reset our delete buttons
-    DeleteBook();
+    
+    // need to re-init the deleteBtns each addition or removal of a book to ensure each book has its unique ID equal to its index in myLibrary
+    deleteBtn();
 }
 
+// display the books when loaded
 displayBooks();
 
-// this button pops up a card that confirms user wants to delete, deletes the book object from myLibrary based on ID, and then re-display's remaining books within myLibrary
-function DeleteBook() {
-    var deleteBtns = document.querySelectorAll('.deleteBtn');
-    deleteBtns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var id = btn.getAttribute('data-id');
-        console.log(id);
-        myLibrary.splice(id, 1);
+
+// the deleteBtn function adds an event listener to each delete button, and then assigns the activeID to data-id attribute for the delete button clicked.
+
+function deleteBtn() {
+    const deleteBtn = document.querySelectorAll('.deleteBtn');
+    deleteBtn.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            activeID = btn.getAttribute('data-id');
+            // myLibrary.splice(id, 1);
+            displayBooks();
+        })
+    })
+}
+
+// When Delete is clicked, a modal pops up asking to confirm if we'd like to delete. We add an event listener to the modal's delete button, which removes the book from myLibrary and runs displayBooks() to remove book from DOM as well
+const deleteBook = document.querySelector('.deleteBook');
+    deleteBook.addEventListener('click', function() {
+        console.log(parseInt(activeID))
+        myLibrary.splice(parseInt(activeID), 1);
         displayBooks();
     })
-})
-}
-// var deleteBtns = document.querySelectorAll('.deleteBtn');
-// deleteBtns.forEach(function(btn) {
-//     btn.addEventListener('click', function() {
-//         var id = btn.getAttribute('data-id');
-//         console.log(id);
-//         myLibrary.splice(id, 1);
-//         displayBooks();
-//     })
-// })
 
-// Modal form init and actions
+
+
+
+// Modal add book form init and actions
 document.addEventListener('DOMContentLoaded', function () {
-    var elem = document.querySelector('.modal');
+    var elem = document.getElementById('modal1');
     const options = {
         dismissible: false
     }
     var instance = M.Modal.init(elem, options)
 
     // submit checks/function
-    const button = document.querySelector('.submitBtn');
-    button.addEventListener('click', checkForm);
+    const submitBtn = document.querySelector('.submitBtn');
+    submitBtn.addEventListener('click', checkForm);
 
     // this function will check if the form is complete, then submit the form
     function checkForm() {
@@ -109,8 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (title.value && author.value && pages.value) {
             // submit form and close modal and reset
             addBook();
-            displayBooks();
             instance.close();
+            displayBooks();
             resetForm();
 
         } else if (!title.value) {
@@ -149,6 +156,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
   });
+
+// init confirm delete modal
+document.addEventListener('DOMContentLoaded', function () {
+    var elem = document.getElementById('modal2');
+    const options = {
+        dismissible: false
+    }
+    var instance = M.Modal.init(elem, options)
+})
 
 // floating edit button to add book
 document.addEventListener('DOMContentLoaded', function() {
