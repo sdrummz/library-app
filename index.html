@@ -66,7 +66,7 @@
               <div class="row">
                 <div class="input-field col s12">
                   <textarea id="form-notes" type="text" class="materialize-textarea validate"></textarea>
-                  <label for="form-notes">Notes (optional)</label>
+                  <label for="form-notes">Notes</label>
                 </div>
               </div>
             </form>
@@ -85,6 +85,41 @@
         <div class="modal-footer">
           <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
           <a class="modal-close waves-effect waves-green btn-flat red-text deleteBook">Delete</a>
+        </div>
+      </div>
+      <div id="modal3" class="modal">
+        <div class="modal-content">
+          <form id="modal-form">
+            <h5>Edit Reading Status</h5>
+            <div class="input-field">
+              <select id="edit-read">
+                <option value="" selected>Choose...</option>
+                <option value="Reading List">Reading List</option>
+                <option value="Still Reading">Still Reading</option>
+                <option value="Finished Reading">Finished Reading</option>
+              </select>
+              <label>Status</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-close waves-effect waves-green btn-flat closeBtn">close</a>
+          <button class="modal-close btn editSubmitBtn waves-effect waves-light" type="submit" name="action">Submit</button>
+        </div>
+      </div>
+      <div id="modal4" class="modal">
+        <div class="modal-content">
+          <form id="modal-form">
+            <h5>View and Add Notes</h5>
+            <div class="input-field">
+              <textarea id="notes-text" class="materialize-textarea" value=""></textarea>
+              <label class="active" for="notes-text">Notes</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-close waves-effect waves-green btn-flat closeBtn">close</a>
+          <button class="modal-close btn notesSubmitBtn waves-effect waves-light" type="submit" name="action">Submit</button>
         </div>
       </div>
     </div>

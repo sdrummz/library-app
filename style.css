@@ -12,6 +12,15 @@ h5 {
   text-align: center;
 }
 
+h6 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.navbar-fixed {
+  margin-bottom: 50px;
+}
+
 form > .row {
   margin: 0px;
 }
@@ -22,4 +31,12 @@ form > .row {
 
 #modal2 {
   width: 400px;
+}
+
+#modal3 {
+  height: 250px;
+}
+
+.editNotes {
+  margin-top: -5px;
 }
