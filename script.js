@@ -1,7 +1,5 @@
 'use strict';
 
-let activeID = '';
-
 // book objects stored in myLibrary
 let myLibrary = [
     { 
@@ -36,7 +34,6 @@ function Book(title, author, pages, status, notes) {
 
 // Display books within myLibrary on cards, plus card buttons and logic
 function displayBooks () {
-
     document.querySelector('.books').innerHTML = '';
     myLibrary.forEach(function (book, i) {
         //this function also gives each book/card a unique ID, to be used when deleting/editing and re-ordering
@@ -64,7 +61,7 @@ function displayBooks () {
         document.querySelector('.books').appendChild(div);
     })
     
-    // need to re-init the deleteBtns each addition or removal of a book to ensure each book has its unique ID equal to its index in myLibrary
+    // re-init the delete, status, and notes buttons each time a deletion or addition is made to ensure they have the right book id according to index
     modalBtns();
 }
 
@@ -73,7 +70,7 @@ displayBooks();
 
 
 // adds event listeners to the modal buttons edit delete and notes, then sets activeID to the index of the book in which edit or delete was pushed to be used with other functions. editBtn populates the modal form to edit the current book. 
-
+let activeID = '';
 function modalBtns() {
     const deleteBtn = document.querySelectorAll('.deleteBtn');
     deleteBtn.forEach(function(btn) {
@@ -127,8 +124,58 @@ editNotes.addEventListener('click', function() {
     M.updateTextFields();
 })
 
+// Adding new book 
+// event listener for submit form button
+const submitBtn = document.querySelector('.submitBtn');
+submitBtn.addEventListener('click', checkForm);
 
-// Modals init, with form actions
+// form fields
+const title = document.querySelector('#form-title');
+const author = document.querySelector('#form-author');
+const pages = document.querySelector('#form-pages');
+const read = document.querySelector('#form-read');
+const notes = document.querySelector('#form-notes');
+
+// this function will check if the add book form is complete, then submit the form
+function checkForm() {
+    if (title.value && author.value && pages.value) {
+        // submit form and close modal and reset
+        addBook();
+        M.Modal.getInstance(document.getElementById('modal1')).close();
+        resetForm();
+        displayBooks();
+
+    } else if (!title.value) {
+        title.classList.add('invalid');
+    } else if (!author.value) {
+        author.classList.add('invalid');
+    } else if (!pages.value) {
+        pages.classList.add('invalid');
+    } 
+
+}
+// function resets the fields in the form
+function resetForm() {
+    title.value = '';
+    title.classList.remove('valid');
+    author.value = '';
+    author.classList.remove('valid');
+    pages.value = '';
+    pages.classList.remove('valid');
+    notes.value = '';
+    notes.classList.remove('valid');
+    read.value = '';
+    
+}
+
+// function creates new book object and pushes to myLibrary
+function addBook() {
+    let newBook = new Book(title.value, author.value, pages.value, read.value, notes.value)
+    myLibrary.push(newBook);
+}
+
+
+// init Materialize components on load
 document.addEventListener('DOMContentLoaded', function () {
     // modal 1 is add a book modal/form, modal 2 is delete a book, modal 3 is edit a book, select is dropdown in form, floatBtn is the floating add book button
     const elem1 = document.getElementById('modal1');
@@ -146,115 +193,4 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal4 = M.Modal.init(elem4, options);
     const dropdown = M.FormSelect.init(elem5);
     const floatBtn = M.FloatingActionButton.init(elem6);
-
-
-    // event listener for submit form button
-    const submitBtn = document.querySelector('.submitBtn');
-    submitBtn.addEventListener('click', checkForm);
-
-    // form fields
-    const title = document.querySelector('#form-title');
-    const author = document.querySelector('#form-author');
-    const pages = document.querySelector('#form-pages');
-    const read = document.querySelector('#form-read');
-    const notes = document.querySelector('#form-notes');
-
-    // this function will check if the add book form is complete, then submit the form
-    function checkForm() {
-        if (title.value && author.value && pages.value) {
-            // submit form and close modal and reset
-            addBook();
-            modal1.close();
-            resetForm();
-            displayBooks();
-
-        } else if (!title.value) {
-            title.classList.add('invalid');
-        } else if (!author.value) {
-            author.classList.add('invalid');
-        } else if (!pages.value) {
-            pages.classList.add('invalid');
-        } 
-
-    }
-    // function resets the fields in the form
-    function resetForm() {
-        title.value = '';
-        title.classList.remove('valid');
-        author.value = '';
-        author.classList.remove('valid');
-        pages.value = '';
-        pages.classList.remove('valid');
-        notes.value = '';
-        notes.classList.remove('valid');
-        read.value = "";
-        
-    }
-
-    // function creates new book object and pushes to myLibrary
-    function addBook() {
-        let newBook = new Book(title.value, author.value, pages.value, read.value, notes.value)
-        myLibrary.push(newBook);
-    }
-
-    // edit book form/modal and logic
-    // let editTitle = document.querySelector('#edit-title');
-    // let editAuthor = document.querySelector('#edit-author');
-    // let editPages = document.querySelector('#edit-pages');
-    // let editRead = document.querySelector('#edit-read');
-    // let editNotes = document.querySelector('#edit-notes');
-    
-    
-    // const editSubmitBtn = document.querySelector('.editSubmitBtn');
-
-
-    // const editBtn = document.querySelectorAll('.editBtn');
-    // editBtn.forEach(function(btn) {
-    //     btn.addEventListener('click', function() {
-    //         let bookObject = myLibrary[parseInt(activeID)];
-    //         editTitle.setAttribute('value', bookObject.title);
-    //         editAuthor.setAttribute('value', bookObject.author);
-    //         editPages.setAttribute('value', bookObject.pages);
-    //         editRead.setAttribute('value', bookObject.read);
-    //         editNotes.setAttribute('value', bookObject.notes);
-    //         M.updateTextFields();
-    //         modal3.open();
-
-    //     })
-    // })
-
-
 });
-
-// form dropdown initialization
-// document.addEventListener('DOMContentLoaded', function() {
-//     var elems = document.querySelectorAll('select');
-//     var instances = M.FormSelect.init(elems);
-//   });
-
-// init confirm delete modal
-// document.addEventListener('DOMContentLoaded', function () {
-//     var elem = document.getElementById('modal2');
-//     const options = {
-//         dismissible: false
-//     }
-//     var instance = M.Modal.init(elem, options)
-// })
-
-// Edit book modal (similar to add book)
-// document.addEventListener('DOMContentLoaded', function () {
-//     var elem = document.getElementById('modal3');
-//     const options = {
-//         dismissible: false
-//     }
-//     var instance = M.Modal.init(elem, options)
-    
-
-
-// })
-
-// floating edit button to add book
-// document.addEventListener('DOMContentLoaded', function() {
-//     var elems = document.querySelectorAll('.fixed-action-btn');
-//     var instances = M.FloatingActionButton.init(elems);
-//   });
