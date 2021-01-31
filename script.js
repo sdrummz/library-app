@@ -35,6 +35,10 @@ function Book(title, author, pages, status, notes) {
 // Display books within myLibrary on cards, plus card buttons and logic
 function displayBooks () {
     document.querySelector('.books').innerHTML = '';
+    // if localstorage of myLibrary exists, use for persistance
+    if (localStorage.myLibrary) {
+        myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    }
     myLibrary.forEach(function (book, i) {
         //this function also gives each book/card a unique ID, to be used when deleting/editing and re-ordering
         book.id = `${i}`;
@@ -101,6 +105,7 @@ const editStatus = document.querySelector('.editSubmitBtn');
 editStatus.addEventListener('click', function() {
     let book = myLibrary[activeID];
     book.status = editRead.value;
+    storeData();
     displayBooks();
     editRead.value = '';
     M.FormSelect.init(document.querySelectorAll('select'))
@@ -111,6 +116,7 @@ const deleteBook = document.querySelector('.deleteBook');
 deleteBook.addEventListener('click', function() {
     console.log(activeID)
     myLibrary.splice(activeID, 1);
+    storeData();
     displayBooks();
 })
 
@@ -120,6 +126,7 @@ const editNotes = document.querySelector('.notesSubmitBtn');
 editNotes.addEventListener('click', function() {
     let book = myLibrary[activeID];
     book.notes = notesText.value;
+    storeData();
     displayBooks();
     M.updateTextFields();
 })
@@ -143,6 +150,7 @@ function checkForm() {
         addBook();
         M.Modal.getInstance(document.getElementById('modal1')).close();
         resetForm();
+        storeData();
         displayBooks();
 
     } else if (!title.value) {
@@ -194,3 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const dropdown = M.FormSelect.init(elem5);
     const floatBtn = M.FloatingActionButton.init(elem6);
 });
+
+// localstorage 
+function storeData() {
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+}
