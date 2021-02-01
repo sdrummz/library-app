@@ -72,7 +72,6 @@ function displayBooks () {
 // display the books when loaded
 displayBooks();
 
-
 // adds event listeners to the modal buttons edit delete and notes, then sets activeID to the index of the book in which edit or delete was pushed to be used with other functions. editBtn populates the modal form to edit the current book. 
 let activeID = '';
 function modalBtns() {
