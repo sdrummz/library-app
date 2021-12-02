@@ -6,4 +6,4 @@ I will make this much better eventually, adding Firebase backend, UI redesign, a
 
 # Live Demo
 
-https://szglabs.github.io/library-app/
+https://sdrummz.github.io/library-app/
